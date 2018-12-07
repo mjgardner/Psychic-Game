@@ -4,11 +4,17 @@ for (var unicodeValue = 97; unicodeValue <= 122; unicodeValue++) {
     letters.push( String.fromCharCode(unicodeValue) );
 }
 
-window.onload = function() {
-    var guesses = [];
+var guesses = [];
+var computerChoice;
+function resetGame() {
+    guesses = [];
+    computerChoice = letters[ Math.floor(Math.random() * letters.length) ];
+    document.getElementById("guesses").textContent = "";
+    document.getElementById("guessesLeft").textContent = 9;
+}
 
-    // pick a random letter
-    var computerChoice = letters[ Math.floor(Math.random() * letters.length) ];
+window.onload = function() {
+    resetGame();
 
     document.onkeyup = function(event) {
         var userGuess = event.key.toLowerCase(); // in case they have caps lock
@@ -25,23 +31,13 @@ window.onload = function() {
 
         if (computerChoice === userGuess) { // you win
             // add a win and reset the game
-            guesses = [];
             document.getElementById("wins").textContent++;
-            document.getElementById("guesses").textContent = "";
-            document.getElementById("guessesLeft").textContent = 9;
-
-            // pick a new random letter
-            computerChoice = letters[ Math.floor(Math.random() * letters.length) ];
+            resetGame();
         }
         else if (document.getElementById("guessesLeft").textContent == 0) { // you lose
             // add a loss and reset the game
-            guesses = [];
             document.getElementById("losses").textContent++;
-            document.getElementById("guesses").textContent = "";
-            document.getElementById("guessesLeft").textContent = 9;
-
-            // pick a new random letter
-            computerChoice = letters[ Math.floor(Math.random() * letters.length) ];
+            resetGame();
         }
     };
 };
