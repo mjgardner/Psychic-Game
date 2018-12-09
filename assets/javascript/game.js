@@ -9,14 +9,14 @@ var computerChoice;
 function resetGame() {
     guesses = [];
     computerChoice = letters[ Math.floor(Math.random() * letters.length) ];
-    document.getElementById("guesses").textContent = "";
-    document.getElementById("guessesLeft").textContent = 9;
+    $("#guesses").text("");
+    $("#guessesLeft").text(9);
 }
 
-window.onload = function() {
+$(function() {
     resetGame();
 
-    document.onkeyup = function(event) {
+    $(document).on("keyup", function (event) {
         var userGuess = event.key.toLowerCase(); // in case they have caps lock
         if (
             (letters.indexOf(userGuess) === -1) || // guess must be a letter
@@ -25,19 +25,22 @@ window.onload = function() {
             return;
         }
         // decrement the guesses by one and log guesses so far
-        document.getElementById("guessesLeft").textContent--;
+        var guessesLeft = $("#guessesLeft").text();
+        $("#guessesLeft").text(--guessesLeft);
         guesses.push(userGuess);
-        document.getElementById("guesses").textContent = guesses.join(", ");
+        $("#guesses").text( guesses.join(", ") );
 
         if (computerChoice === userGuess) { // you win
             // add a win and reset the game
-            document.getElementById("wins").textContent++;
+            var wins = $("#wins").text();
+            $("#wins").text(++wins);
             resetGame();
         }
-        else if (document.getElementById("guessesLeft").textContent == 0) { // you lose
+        else if ($("#guessesLeft").text() == 0) { // you lose
             // add a loss and reset the game
-            document.getElementById("losses").textContent++;
+            var losses = $("#losses").text();
+            $("#losses").text(++losses);
             resetGame();
         }
-    };
-};
+    });
+});
